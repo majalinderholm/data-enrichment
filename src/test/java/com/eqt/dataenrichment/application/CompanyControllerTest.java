@@ -1,4 +1,4 @@
-package com.eqt.dataenrichment.web;
+package com.eqt.dataenrichment.application;
 
 import com.eqt.dataenrichment.domain.CompanyService;
 import com.eqt.dataenrichment.domain.model.Company;

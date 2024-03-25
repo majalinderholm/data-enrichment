@@ -6,3 +6,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+EQT_CLIENT:
+  BASE_URL: https://eqtgroup.com
+  PORTFOLIO_URL: /page-data/current-portfolio/page-data.json
+  DIVESTMENT_URL: /page-data/current-portfolio/divestments/page-data.json
+
+

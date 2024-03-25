@@ -1,15 +1,19 @@
 package com.eqt.dataenrichment.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.eqt.dataenrichment.domain.utils.FundConverter;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.proxy.HibernateProxy;
 
-import java.net.URL;
+import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
+@Table(name = "company")
 @Entity
 @Builder
 @NoArgsConstructor
@@ -20,17 +24,37 @@ public class Company {
     private UUID uuid;
     private String name;
     private String sector;
-    private String city;
+    private String city; //not on website
     private String country;
-    private String fund;
-    private URL url;
-    private LocalDate foundedOn;
-    private String shortDescription;
-    private String description;
-    private int fundingRounds;
-    private double fundingTotalUsd;
-    private String numberOfEmployees;
-    private int entry; //must be a valid year
-    private int exit; //must be same year or after entry
+    @Convert(converter = FundConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private List<Fund> funds;
+    private URI uri;
+    private String promotedSdg;
+    private List<String> sdg;
+    private String topic;
+    private LocalDate foundedOn; //not on website
+    private String shortDescription; //not on website
+    private String description; //not on website
+    private int fundingRounds; //not on website
+    private double fundingTotalUsd; //not on website
+    private String numberOfEmployees; //not on website
+    private LocalDate entry;
+    private LocalDate exit; //must be same year or after entry
 
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        Company company = (Company) o;
+        return uuid != null && Objects.equals(uuid, company.uuid);
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }

@@ -1,7 +1,6 @@
 package com.eqt.dataenrichment.domain;
 
 import com.eqt.dataenrichment.domain.model.Company;
-import com.eqt.dataenrichment.repository.CompanyRepositroy;
 import com.eqt.dataenrichment.utils.DataFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
