@@ -12,21 +12,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 @Service
 public class CompanyService {
     private final CompanyRepositroy companyRepositroy;
     private final EqtWebClient eqtWebClient;
-    private final OrganizationParser googleStorageWebClient;
+    private final OrganizationParser organizationParser;
 
     @Autowired
     public CompanyService(final CompanyRepositroy companyRepositroy,
                           final EqtWebClient eqtWebClient,
-                          final OrganizationParser googleStorageWebClient) {
+                          final OrganizationParser organizationParser) {
         this.companyRepositroy = companyRepositroy;
         this.eqtWebClient = eqtWebClient;
-        this.googleStorageWebClient = googleStorageWebClient;
+        this.organizationParser = organizationParser;
     }
 
     public List<Company> getAllCompanies() {
@@ -41,15 +42,23 @@ public class CompanyService {
         companies.addAll(CompanyMapper.mapToCompanies(portfolioCompanyResponse));
         companies.addAll(CompanyMapper.mapToCompanies(divestmentCompanyResponse));
 
-        List<Organization> organizations = googleStorageWebClient.readOrganizationJson();
+        List<Organization> organizations = organizationParser.readOrganizationJson();
+
+        AtomicInteger numberOfEnhancedCompanies = new AtomicInteger();
 
         List<Company> enhancedCompanies = companies.stream()
                 .map(company -> organizations.stream()
                         .filter(organization -> matchCompanyName(company, organization))
                         .findFirst()
-                        .map(company::enhance)
+                        .map(organization -> {
+                            numberOfEnhancedCompanies.getAndIncrement();
+                            return company.enhance(organization);
+                        })
                         .orElse(company))
                 .toList();
+
+        double percentageEnhancedCompanies = (double) numberOfEnhancedCompanies.get() / companies.toArray().length * 100;
+        System.out.println("Percentage of enhanced companies: " + percentageEnhancedCompanies);
 
         companyRepositroy.saveAll(enhancedCompanies);
         System.out.println("Done fetching and enhancing companies");
@@ -57,6 +66,10 @@ public class CompanyService {
 
     private boolean matchCompanyName(final Company company,
                                      final Organization organization) {
-        return Pattern.matches(Pattern.quote(organization.getName()), company.getName());
+        return Pattern.matches(
+                Pattern.quote(
+                        organization.getName().toLowerCase().replace(" ", "")),
+                company.getName().toLowerCase().replace(" ", "")
+        );
     }
 }

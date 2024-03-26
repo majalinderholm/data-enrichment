@@ -11,6 +11,7 @@ public class DataEnrichmentApplication {
     public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(DataEnrichmentApplication.class, args);
         final CompanyService companyService = context.getBean(CompanyService.class);
+		System.out.println("Start processing companies");
 		companyService.fetchAndEnhanceCompanies();
 	}
 
