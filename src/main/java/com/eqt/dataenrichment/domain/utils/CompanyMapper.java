@@ -2,8 +2,8 @@ package com.eqt.dataenrichment.domain.utils;
 
 import com.eqt.dataenrichment.domain.model.Company;
 import com.eqt.dataenrichment.domain.model.Fund;
-import com.eqt.dataenrichment.infrastructure.model.DivestmentCompanyResponse;
-import com.eqt.dataenrichment.infrastructure.model.PortfolioCompanyResponse;
+import com.eqt.dataenrichment.infrastructure.model.divestment.DivestmentCompanyResponse;
+import com.eqt.dataenrichment.infrastructure.model.portfolio.PortfolioCompanyResponse;
 
 import java.util.List;
 

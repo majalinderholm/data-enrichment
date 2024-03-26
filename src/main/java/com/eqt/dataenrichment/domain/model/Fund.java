@@ -1,9 +1,7 @@
 package com.eqt.dataenrichment.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.net.URI;
 
@@ -11,7 +9,11 @@ import java.net.URI;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Getter
+@Setter
 public class Fund {
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("path")
     private URI path;
 }

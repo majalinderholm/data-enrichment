@@ -2,7 +2,8 @@ package com.eqt.dataenrichment.utils;
 
 import com.eqt.dataenrichment.domain.model.Company;
 import com.eqt.dataenrichment.domain.model.Fund;
-import com.eqt.dataenrichment.infrastructure.model.*;
+import com.eqt.dataenrichment.infrastructure.model.divestment.*;
+import com.eqt.dataenrichment.infrastructure.model.portfolio.*;
 
 import java.net.URI;
 import java.time.LocalDate;

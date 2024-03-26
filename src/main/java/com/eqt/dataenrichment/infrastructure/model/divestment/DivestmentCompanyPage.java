@@ -1,5 +1,6 @@
-package com.eqt.dataenrichment.infrastructure.model;
+package com.eqt.dataenrichment.infrastructure.model.divestment;
 
+import com.eqt.dataenrichment.infrastructure.model.Fund;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class PortfolioCompanyPage {
+public class DivestmentCompanyPage {
     @JsonProperty("_id")
     public UUID id;
 
@@ -25,24 +26,18 @@ public class PortfolioCompanyPage {
     @JsonProperty("entryDate")
     public LocalDate entryDate;
 
+    @JsonProperty("exitDate")
+    public LocalDate exitDate;
+
     @JsonProperty("fund")
     public List<Fund> funds;
 
     @JsonProperty("path")
     public URI path;
 
-    @JsonProperty("promotedSdg")
-    public String promotedSdg;
-
-    @JsonProperty("sdg")
-    public List<String> sdg;
-
     @JsonProperty("sector")
     public String sector;
 
     @JsonProperty("title")
     public String title;
-
-    @JsonProperty("topic")
-    public String topic;
 }

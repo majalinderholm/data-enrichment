@@ -1,11 +1,9 @@
 package com.eqt.dataenrichment.domain.model;
 
 import com.eqt.dataenrichment.domain.utils.FundConverter;
+import com.eqt.dataenrichment.infrastructure.model.organization.Organization;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.hibernate.proxy.HibernateProxy;
+import lombok.*;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -18,6 +16,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Company {
 
     @Id
@@ -26,35 +26,59 @@ public class Company {
     private String sector;
     private String city; //not on website
     private String country;
+    private String countryCode;
     @Convert(converter = FundConverter.class)
     @Column(columnDefinition = "TEXT")
     private List<Fund> funds;
     private URI uri;
+    private String homePage;
     private String promotedSdg;
     private List<String> sdg;
     private String topic;
     private LocalDate foundedOn; //not on website
     private String shortDescription; //not on website
-    private String description; //not on website
+    private String description; //not on website TODO enhance from 2019 data
     private int fundingRounds; //not on website
+    private LocalDate lastFundingOn; //not on website
     private double fundingTotalUsd; //not on website
     private String numberOfEmployees; //not on website
     private LocalDate entry;
     private LocalDate exit; //must be same year or after entry
 
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
-        return uuid != null && Objects.equals(uuid, company.uuid);
+        return fundingRounds == company.fundingRounds && Double.compare(fundingTotalUsd, company.fundingTotalUsd) == 0 && Objects.equals(uuid, company.uuid) && Objects.equals(name, company.name) && Objects.equals(sector, company.sector) && Objects.equals(city, company.city) && Objects.equals(country, company.country) && Objects.equals(countryCode, company.countryCode) && Objects.equals(funds, company.funds) && Objects.equals(uri, company.uri) && Objects.equals(homePage, company.homePage) && Objects.equals(promotedSdg, company.promotedSdg) && Objects.equals(sdg, company.sdg) && Objects.equals(topic, company.topic) && Objects.equals(foundedOn, company.foundedOn) && Objects.equals(shortDescription, company.shortDescription) && Objects.equals(description, company.description) && Objects.equals(lastFundingOn, company.lastFundingOn) && Objects.equals(numberOfEmployees, company.numberOfEmployees) && Objects.equals(entry, company.entry) && Objects.equals(exit, company.exit);
     }
 
     @Override
-    public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    public int hashCode() {
+        return Objects.hash(uuid, name, sector, city, country, countryCode, funds, uri, homePage, promotedSdg, sdg, topic, foundedOn, shortDescription, description, fundingRounds, lastFundingOn, fundingTotalUsd, numberOfEmployees, entry, exit);
+    }
+
+    public Company enhance(final Organization organization) {
+        return Company.builder()
+                .uuid(uuid)
+                .name(name)
+                .sector(sector)
+                .city(organization.getCity())
+                .country(country)
+                .countryCode(organization.getCountryCode())
+                .funds(funds)
+                .uri(uri)
+                .homePage(organization.getHomepageUrl())
+                .promotedSdg(promotedSdg)
+                .sdg(sdg)
+                .topic(topic)
+                .foundedOn(organization.getFoundedOn())
+                .shortDescription(organization.getShortDescription())
+                .fundingRounds(organization.getNumFundingRounds())
+                .lastFundingOn(organization.getLastFundingOn())
+                .numberOfEmployees(organization.getEmployeeCount())
+                .entry(entry)
+                .exit(exit)
+                .build();
     }
 }

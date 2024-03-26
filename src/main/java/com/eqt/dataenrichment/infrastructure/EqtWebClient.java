@@ -1,7 +1,7 @@
 package com.eqt.dataenrichment.infrastructure;
 
-import com.eqt.dataenrichment.infrastructure.model.DivestmentCompanyResponse;
-import com.eqt.dataenrichment.infrastructure.model.PortfolioCompanyResponse;
+import com.eqt.dataenrichment.infrastructure.model.divestment.DivestmentCompanyResponse;
+import com.eqt.dataenrichment.infrastructure.model.portfolio.PortfolioCompanyResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,7 +24,6 @@ public class EqtWebClient {
                 .build();
         this.portfolioUrl = portfolioUrl;
         this.divestmentUrl = divestmentUrl;
-
     }
 
     public PortfolioCompanyResponse fetchPortfolioCompanies() {

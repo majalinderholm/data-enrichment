@@ -1,4 +1,4 @@
-package com.eqt.dataenrichment.infrastructure.model;
+package com.eqt.dataenrichment.infrastructure.model.divestment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

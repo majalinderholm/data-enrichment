@@ -1,4 +1,4 @@
-package com.eqt.dataenrichment.infrastructure.model;
+package com.eqt.dataenrichment.infrastructure.model.portfolio;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class DivestmentCompanyPageContainer {
+public class PortfolioCompanyPageContainer {
     @JsonProperty("nodes")
-    public List<DivestmentCompanyPage> nodes;
+    public List<PortfolioCompanyPage> nodes;
+
 }

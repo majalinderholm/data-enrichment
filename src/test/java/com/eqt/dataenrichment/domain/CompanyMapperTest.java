@@ -2,8 +2,8 @@ package com.eqt.dataenrichment.domain;
 
 import com.eqt.dataenrichment.domain.model.Company;
 import com.eqt.dataenrichment.domain.utils.CompanyMapper;
-import com.eqt.dataenrichment.infrastructure.model.DivestmentCompanyResponse;
-import com.eqt.dataenrichment.infrastructure.model.PortfolioCompanyResponse;
+import com.eqt.dataenrichment.infrastructure.model.divestment.DivestmentCompanyResponse;
+import com.eqt.dataenrichment.infrastructure.model.portfolio.PortfolioCompanyResponse;
 import com.eqt.dataenrichment.utils.DataFactory;
 import org.junit.Test;
 
